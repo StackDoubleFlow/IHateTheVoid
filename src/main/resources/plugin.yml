@@ -1,0 +1,6 @@
+name: IHateTheVoid
+version: 1.0
+main: net.stackdoubleflow.ihatethevoid.IHateTheVoid
+api-version: 1.14
+author: StackDoubleFlow
+depend: [ProtocolLib]
