@@ -1,5 +1,7 @@
 package net.stackdoubleflow.ihatethevoid.event;
 
+import com.comphenix.executors.BukkitExecutors;
+import com.comphenix.executors.BukkitScheduledExecutorService;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
@@ -11,11 +13,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PlayerPositionPacketHandler extends PacketAdapter {
 
     private JavaPlugin plugin;
+    private BukkitScheduledExecutorService syncExecutor;
 
     public PlayerPositionPacketHandler(JavaPlugin plugin) {
         super(plugin, ListenerPriority.HIGHEST, PacketType.Play.Client.POSITION,
                 PacketType.Play.Client.POSITION_LOOK);
         this.plugin = plugin;
+        this.syncExecutor = BukkitExecutors.newSynchronous(plugin);
     }
 
     @Override
@@ -29,7 +33,7 @@ public class PlayerPositionPacketHandler extends PacketAdapter {
             if(!Double.isFinite(x) || !Double.isFinite(y) || !Double.isFinite(z) ||
                     Math.abs(x) >= 3.2E7 || Math.abs(z) >= 3.2E7 || Math.abs(y) >= 3.2E7) {
                 event.setCancelled(true);
-                event.getPlayer().getServer().getScheduler().runTask(plugin, new Runnable() {
+                syncExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
                         event.getPlayer().teleport(event.getPlayer().getWorld().getSpawnLocation());
