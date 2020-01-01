@@ -40,11 +40,11 @@ public class PlayerPositionPacketHandler extends PacketAdapter {
         });
     }
 
-    static boolean isValid(double d) {
+    private static boolean isValid(double d) {
         return Double.isFinite(d) && Math.abs(d) < 3.0E7;
     }
 
-    public static void fixPlayer(Player player) {
+    private static void fixPlayer(Player player) {
         player.teleport(player.getWorld().getSpawnLocation());
         player.sendMessage(
                 ChatColor.GOLD.toString() + ChatColor.BOLD.toString() +
