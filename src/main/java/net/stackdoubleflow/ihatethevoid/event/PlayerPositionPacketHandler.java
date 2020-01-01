@@ -31,7 +31,7 @@ public class PlayerPositionPacketHandler extends PacketAdapter {
             double y = packet.getDoubles().read(1);
             double z = packet.getDoubles().read(2);
             if(!Double.isFinite(x) || !Double.isFinite(y) || !Double.isFinite(z) ||
-                    Math.abs(x) >= 3.2E7 || Math.abs(z) >= 3.2E7 || Math.abs(y) >= 3.2E7) {
+                    Math.abs(x) >= 3.0E7 || Math.abs(z) >= 3.0E7 || Math.abs(y) >= 3.0E7) {
                 event.setCancelled(true);
                 syncExecutor.execute(new Runnable() {
                     @Override
